@@ -68,6 +68,7 @@ func validate() {
     
     fields.forEach { field in
         if let validation = field.key.validateString(field.value) {
+            //TODO: Show Alert here
             print(validation.error.domain)
             return
         }
