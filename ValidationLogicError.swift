@@ -42,14 +42,16 @@ let email = "sateesh@gmail.com"
 let password = "Sateesh@123"
 
 func validate() {
-    guard let emailValidation = Field.email.validateString(email) else {
-        guard let passwordValidation = Field.password.validateString(password) else {
+    let fields = [Field.email: email,
+                  Field.password: password]
+    
+    fields.forEach { field in
+        if let validation = field.key.validateString(field.value) {
+            //TODO: Show Alert here
+            print(validation.error.domain)
             return
         }
-        print(passwordValidation.error.domain)
-        return
     }
-    print(emailValidation.error.domain)
 }
 
 validate()
