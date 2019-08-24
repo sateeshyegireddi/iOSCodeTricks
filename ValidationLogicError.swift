@@ -8,13 +8,17 @@
 
 import Foundation
 
-enum Field: Hashable {
+enum Field: Hashable, Error {
     case email
     case password
     case name
     case mobile
     case otp
     
+    case noData
+    case JSON
+    case response(String)
+
     var requirements: (error: String, code: Int, regex: String) {
         switch self {
         case .email:
@@ -43,7 +47,19 @@ enum Field: Hashable {
                     104,
                     "[0-9]{6}"
             )
+            
+        case .noData:
+            return ("No data has been received from server.", 400, "")
+        case .JSON:
+            return ("Error occured while parsing JSON response.", 400, "")
+        case .response(_):
+            return ("Error while receiving response from server.", 400, "")
         }
+    }
+    
+    static func error(_ message: String) -> Self {
+        let field = Field.response(message)
+        return field
     }
 }
 
@@ -68,11 +84,10 @@ func validate() {
     
     fields.forEach { field in
         if let validation = field.key.validateString(field.value) {
-            //TODO: Show Alert here
             print(validation.error.domain)
             return
         }
     }
 }
 
-validate()
+//validate()
