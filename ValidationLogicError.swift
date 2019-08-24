@@ -17,8 +17,7 @@ enum Field {
         case .email:
             return ("Please enter valid email",
                     100,
-                    "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?"
-                    + "(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+                    "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
         case .password:
             return ("Please enter valid password",
                     101,
@@ -35,14 +34,22 @@ extension Field {
     func validateString(_ string: String?) -> Field? {
         let predicate = NSPredicate(format:"SELF MATCHES %@", requirements.regex)
         let isValid = predicate.evaluate(with: string)
-        return isValid ? self : nil
+        return isValid ? nil : self
     }
 }
 
-let email = "sateesh.com"
+let email = "sateesh@gmail.com"
+let password = "Sateesh@123"
 
-if let fieldValidation = Field.email.validateString(email) {
-    print(fieldValidation.error.domain)
-    return
+func validate() {
+    guard let emailValidation = Field.email.validateString(email) else {
+        guard let passwordValidation = Field.password.validateString(password) else {
+            return
+        }
+        print(passwordValidation.error.domain)
+        return
+    }
+    print(emailValidation.error.domain)
 }
-//TODO: Show error message to user
+
+validate()
