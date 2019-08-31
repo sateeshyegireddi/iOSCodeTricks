@@ -28,3 +28,9 @@ extension UIView {
         if size.height != 0 { heightAnchor.constraint(equalToConstant: size.height).isActive = true }
     }
 }
+
+<#CUSTOM_UIVIEW#>.anchor(top: <#CUSTOM_UIVIEW#>.topAnchor,
+                       leading: <#CUSTOM_UIVIEW#>.leadingAnchor,
+                       bottom: <#CUSTOM_UIVIEW#>.bottomAnchor,
+                       trailing: <#CUSTOM_UIVIEW#>.trailingAnchor,
+                       padding: UIEdgeInsets(top: <#TOP#>, left: <#LEFT#>, bottom: <#BOTTOM#>, right: <#RIGHT#>))
